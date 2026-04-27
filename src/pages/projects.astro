@@ -1,0 +1,74 @@
+---
+// src/pages/projects.astro
+import Layout      from '../layouts/Layout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { projects } from '../data/projects';
+
+// Unique categories in order of first appearance
+const categories = [...new Set(projects.map(p => p.category))];
+---
+
+<Layout
+  title="Projects — Ultaire"
+  description="Apps, infrastructure, and tools built by Ultaire."
+>
+  <section class="projects-section container">
+    <header class="page-header">
+      <div class="section-tag">projects</div>
+      <h2>projects.</h2>
+    </header>
+
+    {categories.map(cat => {
+      const group = projects.filter(p => p.category === cat);
+      return (
+        <div class="category-group">
+          <div class="category-label">{cat}</div>
+          <div class="grid">
+            {group.map(p => (
+              <ProjectCard
+                category={p.category}
+                name={p.name}
+                desc={p.desc}
+                tags={p.tags}
+              />
+            ))}
+          </div>
+        </div>
+      );
+    })}
+  </section>
+</Layout>
+
+<style>
+  .projects-section {
+    position: relative;
+    z-index: 1;
+    padding-top: clamp(100px, 18vw, 180px);
+    padding-bottom: clamp(80px, 12vw, 140px);
+  }
+
+  .page-header {
+    margin-bottom: 64px;
+  }
+
+  .category-group {
+    margin-bottom: 48px;
+  }
+  .category-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.18);
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+</style>

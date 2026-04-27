@@ -1,0 +1,48 @@
+---
+// src/pages/index.astro — Homepage
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Ultaire" description="Apps, delivery infrastructure, and a library of owned functionality.">
+  <section class="hero">
+    <div class="hero-inner">
+      <span class="wordmark">Ultaire</span><span class="dot" aria-hidden="true"></span>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .hero {
+    position: relative;
+    z-index: 1;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-inner {
+    display: flex;
+    align-items: flex-start;
+    line-height: 1;
+  }
+  .wordmark {
+    font-family: var(--font-sans);
+    font-size: clamp(64px, 14vw, 180px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    color: var(--fg);
+    text-shadow: 0 0 120px rgba(255,255,255,0.05);
+    user-select: none;
+  }
+  .dot {
+    display: inline-block;
+    width: clamp(8px, 1.2vw, 14px);
+    height: clamp(8px, 1.2vw, 14px);
+    border-radius: 50%;
+    background: #FF6B35;
+    box-shadow: 0 0 18px rgba(255,107,53,0.7);
+    margin-left: 6px;
+    margin-top: clamp(10px, 2vw, 24px);
+    flex-shrink: 0;
+  }
+</style>

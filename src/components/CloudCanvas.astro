@@ -1,0 +1,85 @@
+---
+// CloudCanvas.astro — atmospheric drifting fog
+// Drop anywhere; the canvas is position:fixed so it works site-wide
+---
+
+<canvas id="cloud-canvas" aria-hidden="true"></canvas>
+
+<style>
+  #cloud-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+</style>
+
+<script>
+  const canvas = document.getElementById('cloud-canvas') as HTMLCanvasElement;
+  const ctx    = canvas.getContext('2d')!;
+
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize, { passive: true });
+
+  interface CloudState {
+    x: number; y: number; r: number;
+    vx: number; vy: number;
+    opacity: number; targetOpacity: number;
+    life: number; maxLife: number;
+  }
+
+  function makeCloud(init: boolean): CloudState {
+    return {
+      x: Math.random() * canvas.width,
+      y: init
+        ? Math.random() * canvas.height
+        : (Math.random() < 0.5 ? -300 : canvas.height + 300),
+      r:             180 + Math.random() * 260,
+      vx:            (Math.random() - 0.5) * 0.12,
+      vy:            (Math.random() - 0.5) * 0.06,
+      opacity:       0,
+      targetOpacity: 0.025 + Math.random() * 0.045,
+      life:          init ? Math.random() * (1800 + Math.random() * 2400) : 0,
+      maxLife:       1800 + Math.random() * 2400,
+    };
+  }
+
+  const COUNT  = 22;
+  let clouds   = Array.from({ length: COUNT }, () => makeCloud(true));
+
+  function updateCloud(c: CloudState) {
+    c.life++;
+    c.x += c.vx;
+    c.y += c.vy;
+    const t = c.life / c.maxLife;
+    if      (t < 0.15) c.opacity = (t / 0.15) * c.targetOpacity;
+    else if (t < 0.80) c.opacity = c.targetOpacity;
+    else               c.opacity = ((1 - t) / 0.20) * c.targetOpacity;
+    if (c.life > c.maxLife) return makeCloud(false);
+    return c;
+  }
+
+  function drawCloud(c: CloudState) {
+    const g = ctx.createRadialGradient(c.x, c.y, 0, c.x, c.y, c.r);
+    g.addColorStop(0,   `rgba(255,255,255,${c.opacity})`);
+    g.addColorStop(0.5, `rgba(200,190,180,${c.opacity * 0.5})`);
+    g.addColorStop(1,   'transparent');
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  function loop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    clouds = clouds.map(c => { const next = updateCloud(c); drawCloud(next); return next; });
+    requestAnimationFrame(loop);
+  }
+  loop();
+</script>

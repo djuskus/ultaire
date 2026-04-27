@@ -1,0 +1,92 @@
+/* ── Ultaire — Global Styles ──────────────────────────────────
+   Import in Layout.astro via: import '../styles/global.css'
+──────────────────────────────────────────────────────────── */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg:          #080808;
+  --bg-1:        #0f0f0f;
+  --bg-2:        #141414;
+  --fg:          #ffffff;
+  --fg-1:        rgba(255,255,255,0.45);
+  --fg-2:        rgba(255,255,255,0.25);
+  --fg-3:        rgba(255,255,255,0.12);
+  --orange:      #FF6B35;
+  --orange-glow: rgba(255,107,53,0.65);
+  --border:      rgba(255,255,255,0.05);
+  --font-sans:   'Space Grotesk', sans-serif;
+  --font-mono:   'JetBrains Mono', monospace;
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,107,53,0.2); border-radius: 3px; }
+
+/* ── Typography ───────────────────────────────────────────── */
+h1 {
+  font-family: var(--font-sans);
+  font-size: clamp(64px, 14vw, 180px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--fg);
+}
+
+h2 {
+  font-family: var(--font-sans);
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  color: var(--fg);
+  text-wrap: balance;
+}
+
+p {
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--fg-1);
+  line-height: 1.75;
+  text-wrap: pretty;
+}
+
+/* ── Layout ───────────────────────────────────────────────── */
+.container {
+  width: 100%;
+  padding-left:  clamp(20px, 5vw, 72px);
+  padding-right: clamp(20px, 5vw, 72px);
+}
+
+section {
+  padding-top:    clamp(80px, 12vw, 140px);
+  padding-bottom: clamp(80px, 12vw, 140px);
+}
+
+.section-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-2);
+  margin-bottom: 20px;
+}
+
+/* ── Utility ──────────────────────────────────────────────── */
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0,0,0,0); white-space: nowrap; border-width: 0;
+}

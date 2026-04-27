@@ -1,0 +1,32 @@
+---
+// src/components/Footer.astro
+---
+
+<footer>
+  <div class="container">
+    <div class="inner">
+      <span class="copy">© 2026 Ultaire</span>
+      <span class="tagline">ultaire</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 40px 0;
+  }
+  .inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .copy, .tagline {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--fg-3);
+    letter-spacing: 0.04em;
+  }
+</style>

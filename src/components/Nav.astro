@@ -1,0 +1,82 @@
+---
+// Nav.astro — sticky top navigation
+const links = [
+  { href: '/about',    label: 'About'    },
+  { href: '/projects', label: 'Projects' },
+];
+
+const { pathname } = Astro.url;
+---
+
+<nav id="nav">
+  <a href="/" class="logo" aria-label="Ultaire home">
+    <!-- Octagon: white fill, orange outline -->
+    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+      <polygon
+        points="9.4,2 20.6,2 28,9.4 28,20.6 20.6,28 9.4,28 2,20.6 2,9.4"
+        fill="white"
+        stroke="#FF6B35"
+        stroke-width="1.5"
+      />
+    </svg>
+  </a>
+
+  <ul class="nav-links" role="list">
+    {links.map(({ href, label }) => (
+      <li>
+        <a
+          href={href}
+          class:list={['nav-link', { active: pathname.startsWith(href) }]}
+        >
+          {label}
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<style>
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 clamp(20px, 5vw, 72px);
+    height: 60px;
+    transition: background 300ms var(--ease-out), border-color 300ms;
+    border-bottom: 1px solid transparent;
+  }
+  nav.scrolled {
+    background: rgba(8,8,8,0.88);
+    backdrop-filter: blur(16px);
+    border-color: rgba(255,255,255,0.05);
+  }
+
+  .logo { display: flex; align-items: center; }
+  .logo svg { display: block; }
+
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 36px;
+  }
+  .nav-link {
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.35);
+    text-decoration: none;
+    transition: color 200ms;
+  }
+  .nav-link:hover,
+  .nav-link.active { color: #fff; }
+</style>
+
+<script>
+  const nav = document.getElementById('nav')!;
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 20);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+</script>
