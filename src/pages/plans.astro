@@ -1,0 +1,49 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { plans } from '../data/plans';
+---
+
+<Layout
+  title="Plans — Ultaire"
+  description="What's next. Projects in motion and ideas taking shape."
+>
+  <section class="plans-section container">
+    <header class="page-header">
+      <div class="section-tag">pipeline</div>
+      <h2>what's next.</h2>
+    </header>
+
+    <div class="grid">
+      {plans.map(p => (
+        <ProjectCard
+          category={p.category}
+          name={p.name}
+          desc={p.desc}
+          tags={p.tags}
+        />
+      ))}
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .plans-section {
+    position: relative;
+    z-index: 1;
+    padding-top: clamp(100px, 18vw, 180px);
+    padding-bottom: clamp(80px, 12vw, 140px);
+  }
+
+  .page-header {
+    margin-bottom: 64px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+</style>
